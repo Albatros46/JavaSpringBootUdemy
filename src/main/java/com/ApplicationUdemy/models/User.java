@@ -4,6 +4,10 @@ import com.ApplicationUdemy.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 //@Data
 @NoArgsConstructor
@@ -24,10 +28,18 @@ public class User {
     private String email;
     @JsonProperty("phone")
     private String phone;
-    @Enumerated(EnumType.ORDINAL)
-    private UserRole role = UserRole.CUSTOMER;
+    @Enumerated(EnumType.STRING)
+   // @Column(nullable = false)
+    private UserRole role ;//= UserRole.ADMIN;//
 
 
+    //---Relationship
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id",referencedColumnName = "id")
+    private Address address;
 
-
+    @CreationTimestamp
+    private LocalDateTime cratedAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
