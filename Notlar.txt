@@ -1,0 +1,52 @@
+spring-boot-starter-actuator sayesinde
+
+Uygulamanın çalışıyor mu, hata mı var kontrolünü yapabilirsin.
+
+Bellek kullanımı, CPU yükü, HTTP istek sayısı, veritabanı bağlantısı gibi metrikleri izleyebilirsin.
+
+Uygulamanın versiyon bilgisi, profil, bean yapısı gibi bilgileri dışarıya açabilirsin.
+
+Üretim ortamında (production) monitoring araçlarıyla (örneğin Prometheus, Grafana, New Relic vs.) entegre çalışabilir.
+| Özellik               | Açıklama                                                                 |
+| --------------------- | ------------------------------------------------------------------------ |
+| 📦 Bağımlılık         | `spring-boot-starter-actuator`                                           |
+| 🎯 Amaç               | Uygulamayı izleme, yönetme ve hata tespiti                               |
+| 🔍 Sağladığı Bilgiler | Health, metrics, env, mappings, beans                                    |
+| 🔐 Güvenlik           | Prod ortamda genelde bazı endpoint’ler kapatılır veya Basic Auth eklenir |
+
+http://localhost:8081/actuator
+
+| Kullanım Alanı                 | Açıklama                                                                |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| **Monitoring / Health Checks** | Uygulama gerçekten “UP” mı? DB, Redis, Queue bağlantıları çalışıyor mu? |
+| **Performance Metrics**        | JVM, HTTP isteği, thread, response süresi gibi performans izleme        |
+| **Production Debugging**       | Hangi bean’ler yüklü, hangi port açık, hangi profiller aktif            |
+| **DevOps Entegrasyonu**        | Prometheus, Grafana, ELK (Elastic stack) gibi sistemlerle entegre olur  |
+-------------------------------------------
+| Endpoint               | Açıklama                                                   |
+| ---------------------- | ---------------------------------------------------------- |
+| `/actuator/health`     | Uygulama çalışıyor mu, veritabanı bağlantısı var mı?       |
+| `/actuator/info`       | Proje bilgileri (ör. versiyon, açıklama, yazar)            |
+| `/actuator/metrics`    | CPU, memory, HTTP istekleri, garbage collection metrikleri |
+| `/actuator/env`        | Aktif environment değişkenleri                             |
+| `/actuator/beans`      | Yüklü Spring Bean listesi                                  |
+| `/actuator/mappings`   | Tüm endpoint (controller) haritalamaları                   |
+| `/actuator/threaddump` | Thread’lerin durumu (debug amaçlı)                         |
+
+-------------------------------------------
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+-------------------------------------------------
+Uygulamayı başlat ve şu adreslere git:
+
+http://localhost:8081/actuator/health
+→ { "status": "UP" } döner ✅
+
+http://localhost:8081/actuator/metrics/jvm.memory.used
+→ Bellek kullanımını gösterir.
+
+http://localhost:8081/actuator/mappings
+→ Tüm controller ve endpoint’lerini listeler.
