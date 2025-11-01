@@ -20,6 +20,29 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+#spring actuator - aktiv. bütün endpointler aktiv  calisir durumda olacak.
+# https://docs.spring.io/spring-boot/reference/actuator/index.html#actuator
+#http://localhost:8081/actuator /health /info
+# http://localhost:8081/actuator/metrics   metrics icindekileri uzantiya yazarak görüntüleyebiliriz.
+# http://localhost:8081/actuator/loggers
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # beans , bean, health
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: Project_E-Commerce
+    description: App built by Servet Akcadag
+    version: 1.0.0
+
 server:
   port: 8081
-
+  shutdown: GRACEFUL
