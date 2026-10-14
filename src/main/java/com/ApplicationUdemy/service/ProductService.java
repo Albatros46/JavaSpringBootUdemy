@@ -55,6 +55,10 @@ public class ProductService {
         });
     }
 
+    public Optional<ProductResponse> getProduct(Long id) {
+        return productRepository.findById(id).map(this::mapToProductResponse);
+    }
+
     public List<ProductResponse> getAllActiveProducts() {
         return productRepository.findByActiveTrue().stream()
                 .map(this::mapToProductResponse).collect(Collectors.toList());

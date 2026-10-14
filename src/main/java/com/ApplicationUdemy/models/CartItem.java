@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="cart_item")
+@Entity
 @Data
-//@Table(name = "cart_item")
+@Table(name = "cart_item")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

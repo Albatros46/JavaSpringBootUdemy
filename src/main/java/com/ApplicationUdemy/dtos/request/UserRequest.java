@@ -1,7 +1,6 @@
 package com.ApplicationUdemy.dtos.request;
 
 import com.ApplicationUdemy.dtos.AddressDto;
-import com.ApplicationUdemy.enums.UserRole;
 import lombok.Data;
 
 @Data

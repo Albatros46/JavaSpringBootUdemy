@@ -1,7 +1,7 @@
 package com.ApplicationUdemy.controller;
 
 import com.ApplicationUdemy.dtos.request.CartItemRequest;
-import com.ApplicationUdemy.models.CartItem;
+import com.ApplicationUdemy.dtos.response.CartItemResponse;
 import com.ApplicationUdemy.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,9 +40,9 @@ public class CartController {
         boolean deleted = cartService.deleteItemFromCart(userId, productId);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
-    @GetMapping("/getAllcartItem")
-    public ResponseEntity<List<CartItem>>getCart( @RequestHeader("X-User-ID")String userId){
-        return ResponseEntity.ok(cartService.getCart(userId));
+    @GetMapping
+    public ResponseEntity<List<CartItemResponse>> getCart(@RequestHeader("X-User-ID") String userId){
+        return ResponseEntity.ok(cartService.getCartItems(userId));
     }
 
 }

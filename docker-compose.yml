@@ -1,0 +1,75 @@
+
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: ecom-postgres-udemy
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: ecom_udemy
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecom-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ecom_udemy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s      # ← Yeni ekledik
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-udemy
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - ecom-network
+
+  app:
+    build: .
+    container_name: ecom-udemy-application
+    depends_on:
+      postgres:
+        condition: service_healthy     # Bu doğru
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecom_udemy
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+        # Portu doğru ayarlamak için
+      SERVER_PORT: 8080
+      # Ekstra bağlantı ayarları (daha dayanıklı olsun)
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 10
+    ports:
+      - "8080:8080"
+    networks:
+      - ecom-network
+    restart: on-failure:5        # ← Ekstra güvenlik
+
+  frontend:
+    build: ./ecom-frontend
+    container_name: ecom-udemy-frontend
+    depends_on:
+      - app
+    ports:
+      - "3000:80"
+    networks:
+      - ecom-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ecom-network:
+    driver: bridge

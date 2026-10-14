@@ -1,0 +1,33 @@
+🔐 pgAdmin Giriş Bilgileri:
+
+Email: admin@admin.com
+
+Password: admin
+-----------------------------
+| Alan      | Değer    |
+| --------- | -------- |
+| Host name | postgres |
+| Port      | 5432     |
+| Username  | postgres |
+| Password  | 12345    |
+| Database  | ecom_udemy   |
+-----------------------------------
+| Amaç                            | Komut                              |
+| ------------------------------- | ---------------------------------- |
+| Container’ları başlat           | `docker-compose up -d`             |
+| Log’ları görmek                 | `docker-compose logs -f`           |
+| Container’ları durdur           | `docker-compose down`              |
+| Tüm image ve volume’leri silmek | `docker system prune -a --volumes` |
+
+---------------------------
+Uygulama: http://localhost:8080
+pgAdmin: http://localhost:5050
+(Email: admin@admin.com | Şifre: admin)
+daha sonra docker-compose.yml deki postgresql
+---->    environment:
+           POSTGRES_USER: postgres
+           POSTGRES_PASSWORD: 12345
+           POSTGRES_DB: ecom_udemy
+         ports:
+           - "5432:5432"
+-----------------------------------------

@@ -1,5 +1,4 @@
 package com.ApplicationUdemy.models;
-//import jakarta.persistence.*;
 import com.ApplicationUdemy.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -28,10 +27,9 @@ public class User {
     private String email;
     @JsonProperty("phone")
     private String phone;
+    // Yeni kullanıcılar varsayılan olarak CUSTOMER rolüyle oluşturulur
     @Enumerated(EnumType.STRING)
-   // @Column(nullable = false)
-    private UserRole role ;//= UserRole.ADMIN;//
-
+    private UserRole role = UserRole.CUSTOMER;
 
     //---Relationship
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,7 +37,7 @@ public class User {
     private Address address;
 
     @CreationTimestamp
-    private LocalDateTime cratedAt;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

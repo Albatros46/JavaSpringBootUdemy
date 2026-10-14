@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest) {
         userService.addUser(userRequest);
-        return ResponseEntity.ok("User added successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
     }
 
     // Kullanıcıyı güncelle

@@ -20,7 +20,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<UserResponse> fetchAllUsers() {
-        List<User> userList=userRepository.findAll();
         return userRepository.findAll().stream()
                 .map(this::mapToUserResponse)
                 .collect(Collectors.toList());
@@ -42,10 +41,10 @@ public class UserService {
         user.setLastName(userRequest.getLastName());
         user.setEmail(userRequest.getEmail());
         user.setPhone(userRequest.getPhone());
-     //   user.setRole(userRequest.getRole());
 
         if (userRequest.getAddress() != null){
-            Address address = new Address();
+            // Güncellemede mevcut adres kaydı kullanılır, her seferinde yeni satır oluşturulmaz
+            Address address = user.getAddress() != null ? user.getAddress() : new Address();
             address.setStreet(userRequest.getAddress().getStreet());
             address.setState(userRequest.getAddress().getState());
             address.setCity(userRequest.getAddress().getCity());
@@ -83,7 +82,6 @@ public class UserService {
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
         response.setRole(user.getRole());
-       // response.setAddressDto(user.getAddress());
         if(user.getAddress()!=null){
             AddressDto addressDto=new AddressDto();
             addressDto.setStreet(user.getAddress().getStreet());

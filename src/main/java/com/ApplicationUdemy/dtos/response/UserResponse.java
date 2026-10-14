@@ -2,10 +2,6 @@ package com.ApplicationUdemy.dtos.response;
 
 import com.ApplicationUdemy.dtos.AddressDto;
 import com.ApplicationUdemy.enums.UserRole;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 @Data

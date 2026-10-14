@@ -5,12 +5,9 @@ import com.ApplicationUdemy.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +17,20 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestHeader("X-User-ID") String userId){
-        Optional<OrderResponse> order=orderService.createOrder(userId);
         return orderService.createOrder(userId).map(
                 orderResponse -> new ResponseEntity<>(orderResponse,HttpStatus.CREATED))
                 .orElseGet(()->ResponseEntity.badRequest().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getOrders(@RequestHeader("X-User-ID") String userId){
+        return ResponseEntity.ok(orderService.getOrders(userId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getOrder(@RequestHeader("X-User-ID") String userId, @PathVariable Long id){
+        return orderService.getOrder(userId, id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 }
